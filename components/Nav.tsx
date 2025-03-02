@@ -3,12 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import {getProviders, signIn, signOut} from 'next-auth/react';
+import {getProviders, signIn, signOut, useSession} from 'next-auth/react';
 import {Button} from "@components/ui/button";
 import {useEffect, useState} from "react";
 
 export default function Nav() {
-    const isUserLoggedIn: boolean = true;
+
+
+    const {data: session} = useSession();
+
 
     const [providers, setProviders] = useState(null);
     const [toggleDropdown, setToggleDropdown] = useState<boolean>(false);
@@ -22,8 +25,9 @@ export default function Nav() {
         }
 
         setProvidersFunc();
-    })
+    },[])
 
+    // @ts-ignore
     return (
         <nav className="flex-between w-full mb-16 pt-3">
             <Link href="/" className="flex gap-2 flex-center ">
@@ -32,10 +36,11 @@ export default function Nav() {
                 <p className="logo_text">Promptopia</p>
             </Link>
 
+
             {/*PC Navigation*/}
 
             <div className="sm:flex hidden">
-                {isUserLoggedIn ? (
+                {session?.user ? (
                     <div className="flex gap-3 md:gap-5">
                         <Link href="/create-post" className="black_btn">
                             Пост жазу
@@ -48,7 +53,7 @@ export default function Nav() {
 
                         <Link href="/profile">
                             <Image className="rounded-full"
-                                   src='/assets/images/logo.svg' width={37} height={37} alt="Profile"/>
+                                   src= {session?.user.image || '/assets/images/logo.svg'} width={37} height={37} alt="Profile"/>
                         </Link>
                     </div>
 
@@ -67,10 +72,10 @@ export default function Nav() {
 
             {/*Mobilka Navigation*/}
             <div className="sm:hidden flex relative">
-                {isUserLoggedIn ? (
+                {session?.user ? (
                         <div className="flex gap-3 md:gap-5">
                             <Image className="rounded-full"
-                                   src='/assets/images/logo.svg'
+                                   src={session?.user.image || "assets/images/logo.svg"}
                                    onClick={() => setToggleDropdown((prev) => !prev)}
                                    width={37} height={37} alt="Profile"/>
 
