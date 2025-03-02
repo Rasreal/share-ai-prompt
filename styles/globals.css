@@ -85,6 +85,14 @@
     @apply rounded-full border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white text-center text-sm font-inter flex items-center justify-center;
 }
 
+.outline_btn_blue {
+    @apply rounded-full border-2 border-blue-400 bg-transparent py-1.5 px-5 text-black transition-all hover:bg-blue-400 hover:text-white text-center text-sm font-inter flex items-center justify-center;
+}
+
+.outline_btn_red {
+    @apply rounded-full border-2 border-red-500 bg-transparent py-1.5 px-5 text-black transition-all hover:bg-red-400 hover:text-white text-center text-sm font-inter flex items-center justify-center;
+}
+
 .head_text {
     @apply mt-5 text-5xl font-extrabold leading-[1.15] text-black sm:text-6xl;
 }
