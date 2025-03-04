@@ -1,13 +1,12 @@
 "use client"
 import {Post} from "@components/Feed";
-import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import {useState} from "react";
 
 
 interface PromptCardProps {
     post: Post;
-    handleTagClick: () => void;
+    handleTagClick: (tag: string) => void;
     handleEdit: () => void;
     handleDelete: () => void;
 }
@@ -15,11 +14,21 @@ interface PromptCardProps {
 export default function PromptCard({post, handleTagClick, handleEdit, handleDelete}: PromptCardProps) {
     // @ts-ignore
 
+    const [copied, setCopied] = useState<string>('');
+
+    const handleCopy = (prompt: string) => {
+        setCopied(prompt);
+        navigator.clipboard.writeText(prompt);
+
+        setTimeout(() => {
+            setCopied("")
+        }, 10000);
+    }
     console.log(post);
     console.log(post.creator.username);
     return (
         <div className="prompt_card">
-            <div className="flex justify-between items-start gap-52">
+            <div className="flex justify-between items-start gap-5">
                 <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
                     <Image
                         src={post.creator.image}
@@ -35,9 +44,25 @@ export default function PromptCard({post, handleTagClick, handleEdit, handleDele
                             {post.creator.email}
                         </p>
                     </div>
-                </div>
-            </div>
 
+
+                </div>
+
+                <div className="copy_btn" onClick={() => handleCopy(post.prompt)}>
+                    <Image src={copied === post.prompt ?
+                        '/assets/icons/tick.svg' : '/assets/icons/copy.svg'
+                    } width={12} height={12} alt="copied"/>
+                </div>
+
+
+            </div>
+            <p className="my-4 font-satoshi text-sm text-gray-700">
+                {post.prompt}
+            </p>
+            <p className="font-inter text-sm blue_gradient cursor-pointer"
+               onClick={() => handleTagClick && handleTagClick(post.tag)}>
+                {post.tag}
+            </p>
         </div>
     )
 }
