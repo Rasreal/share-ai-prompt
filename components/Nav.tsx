@@ -52,7 +52,7 @@ export default function Nav() {
 
 
                         <Link href="/profile">
-                            <Image className="rounded-full"
+                            <Image className="rounded-full mt-1.5"
                                    src= {session?.user.image || '/assets/images/logo.svg'} width={37} height={37} alt="Profile"/>
                         </Link>
                     </div>

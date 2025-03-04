@@ -6,22 +6,25 @@ import PromptCard from "@components/PromtCard";
 export interface Post {
     tag: string;
     prompt: string;
+    creator?: any;
+    createdAt?: string;
 }
 
 interface PromptCardListProps {
     data: Post[];
-    handleTagClick: (tag: string) => void;
+    handleTagClick: () => void;
 }
 
 const PromptCardList: React.FC<PromptCardListProps> = ({ data, handleTagClick }) => {
     return (
-        <div className="mt-16">
+        <div className="mt-16 prompt_layout">
             {data.map((post: Post, index: number) => (
                 <PromptCard
                     key={index}
                     post={post}
                     handleTagClick={handleTagClick}
-                />
+                    handleEdit={()=>{}}
+                    handleDelete={()=>{}}/>
             ))}
         </div>
     );
@@ -62,7 +65,7 @@ export default function Feed() {
                     required
                 />
             </form>
-            <PromptCardList data={posts} handleTagClick={(tag) => { console.log(tag) }} />
+            <PromptCardList data={posts} handleTagClick={() => { console.log("tag") }} />
         </section>
     );
 }

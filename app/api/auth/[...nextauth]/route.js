@@ -26,17 +26,28 @@ const handler = NextAuth({
                 const userExists = await User.findOne({
                     email: profile.email,
                 })
+
+                if(userExists) {
+                    // Update the user's image if it's missing or outdated
+                    if(!userExists.image || userExists.image !== profile.picture) {
+                        await User.updateOne(
+                            {email: profile.email},
+                            {$set: {image: profile.picture}}
+                        );
+                    }
+                }
+
                 //user doesn't exist
                 if(!userExists) {
                     await User.create({
                         email: profile.email,
                         username: profile.name.replace(" ", "").toLowerCase(),
-                        image: profile.image,
-
+                        image: profile.picture,
                     })
                 }
                 return true;
-            } catch (e) {
+            } catch
+                (e) {
                 console.error(e)
                 return false;
             }

@@ -4,7 +4,6 @@ import {Button} from "@/components/ui/button";
 import {useForm} from "@node_modules/react-hook-form";
 import React from "react";
 import {Input} from "@components/ui/input";
-import {InputForm} from "@components/NewForm";
 import Feed from "@components/Feed";
 
 
