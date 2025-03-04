@@ -1,19 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        appDir: true,
-        serverComponentsExternalPackages: ["mongoose"],
-    },
+    serverExternalPackages: ["mongoose"], // ✅ Corrected placement
     images: {
         domains: ['lh3.googleusercontent.com'],
     },
-    webpack(config: any) {
+    webpack(config) {
         config.experiments = {
             ...config.experiments,
             topLevelAwait: true,
-        }
-        return config
-    }
-}
+        };
+        return config;
+    },
+};
 
-module.exports = nextConfig
+export default nextConfig; // ✅ Use `export default` for TypeScript
