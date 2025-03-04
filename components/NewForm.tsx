@@ -46,13 +46,14 @@ export function PromptForm({
         },
     })
 
+
     function onSubmit(data: z.infer<typeof FormSchema>) {
         console.log(data)
-        toast("Event has been created", {
-            description: "Sunday, December 03, 2023 at 9:00 AM",
+        toast("Промпт сақталып жатыр", {
+            description: new Date().toLocaleString("ru-RU"), // Russian date format
             action: {
-                label: "Undo",
-                onClick: () => console.log("Undo"),
+                label: "ОК",
+                onClick: () => console.log("ОК"),
             },
         })
         externalHandleSubmit(data)
@@ -84,7 +85,10 @@ export function PromptForm({
                                 <FormControl>
                                     <textarea
                                         value={post?.prompt || ""}
-                                        onChange={(e) => setPost({...post, prompt: e.target.value})}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            setPost({...post, prompt: e.target.value})
+                                        }}
                                         placeholder="Промпты еңгізіңіз..."
                                         required
                                         className="form_textarea"
@@ -109,7 +113,10 @@ export function PromptForm({
                                         type="text"
                                         placeholder="Тегті еңгізіңіз"
                                         className="rounded-xl h-11"
-                                        onChange={(e) => setPost({...post, tag: e.target.value})}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            setPost({...post, tag: e.target.value})
+                                        }}
                                     />
                                 </FormControl>
                                 <FormMessage className="text-red-600 text-lg"/>

@@ -1,5 +1,5 @@
 
-export default function PromtCard({}:any) {
+export default function PromptCard({}:any) {
     return (
         <div>
 

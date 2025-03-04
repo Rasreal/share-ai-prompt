@@ -42,7 +42,7 @@ export default function Nav() {
             <div className="sm:flex hidden">
                 {session?.user ? (
                     <div className="flex gap-3 md:gap-5">
-                        <Link href="/create-post" className="black_btn">
+                        <Link href="/create-prompt" className="black_btn">
                             Пост жазу
                         </Link>
 
