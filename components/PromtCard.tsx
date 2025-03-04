@@ -26,6 +26,15 @@ export default function PromptCard({post, handleTagClick, handleEdit, handleDele
 
                         alt="user_image" width={40}
                         height={40} className="rounded-full object-cover"/>
+
+                    <div className="flex flex-col">
+                        <h3 className="font-satoshi font-semibold text-gray-900">
+                            {post.creator.username}
+                        </h3>
+                        <p className="text-gray-500 font-inter text-sm">
+                            {post.creator.email}
+                        </p>
+                    </div>
                 </div>
             </div>
 
