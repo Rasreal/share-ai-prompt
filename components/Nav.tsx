@@ -5,7 +5,9 @@ import Image from "next/image";
 
 import {getProviders, signIn, signOut, useSession} from 'next-auth/react';
 import {Button} from "@components/ui/button";
-import {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
+
+
 
 export default function Nav() {
 
@@ -27,9 +29,11 @@ export default function Nav() {
         setProvidersFunc();
     },[])
 
+
     // @ts-ignore
     return (
         <nav className="flex-between w-full mb-16 pt-3">
+            {/*<Parent/>*/}
             <Link href="/" className="flex gap-2 flex-center ">
                 <Image className="object-contain"
                        src='/assets/images/logo.svg' width={30} height={30} alt="Logo"/>
