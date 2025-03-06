@@ -22,12 +22,12 @@ export default function CreatePrompt() {
         setSubmitting(true);
 
         try{
-            // @ts-ignore
+
             const response = await fetch("/api/prompt/new", {
                 method: "POST",
                 body: JSON.stringify({
                     prompt: post.prompt,
-                    userID: session.user.id,
+                    userID: session!.user!.id,
                     tag: post.tag,
                 })
             });

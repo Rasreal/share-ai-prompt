@@ -19,13 +19,13 @@ export default function PromptCard({post, handleTagClick, handleEdit, handleDele
     const handleCopy = (prompt: string) => {
         setCopied(prompt);
         navigator.clipboard.writeText(prompt);
-
+        //this prompt will be copied and save into clipvoard for 10 seconds
         setTimeout(() => {
             setCopied("")
         }, 10000);
     }
-    console.log(post);
-    console.log(post.creator.username);
+
+
     return (
         <div className="prompt_card">
             <div className="flex justify-between items-start gap-5">
