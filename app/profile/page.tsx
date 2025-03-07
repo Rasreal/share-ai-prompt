@@ -4,7 +4,9 @@ import {useSession} from "next-auth/react";
 import {useEffect, useState} from "react";
 import {Post} from "@components/Feed";
 
-export default function Profile() {
+import Profile from "@components/Profile"
+
+export default function MyProfile() {
     const {data: session} = useSession();
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -20,7 +22,11 @@ export default function Profile() {
             }
         };
 
-        fetchPrompts();
+        if(session?.user.id) {
+            fetchPrompts();
+        }
+
+
     }, []);
 
     const handleEdit = () => {
@@ -33,9 +39,10 @@ export default function Profile() {
     return (
         <Profile
             name="Menin"
+            myProfile={true}
             desc={"Qosh Keldin"}
-            data={[]}
-            handleedit={() => {
+            data={posts}
+            handleEdit={() => {
             }}
             handleDelete={() => {
             }}

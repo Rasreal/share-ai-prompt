@@ -1,5 +1,5 @@
-import connectDatabase from "../../../utils/database";
-import Prompt from "../../../models/prompt.ts";
+import connectDatabase from "utils/database";
+import Prompt from "models/prompt.ts";
 
 
 export const GET = async (req) => {
