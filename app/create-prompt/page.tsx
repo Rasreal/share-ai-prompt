@@ -52,7 +52,6 @@ export default function CreatePrompt() {
        console.log("Submitting Data:", data); // ✅ Debug first request
 
         try {
-            // @ts-ignore
             const response = await fetch("/api/prompt/new", {
                 method: "POST",
                 headers: {
@@ -60,6 +59,7 @@ export default function CreatePrompt() {
                 },
                 body: JSON.stringify({
                     prompt: prompt,
+                    // @ts-ignore
                     userID: session?.user?.id,
                     tag: tag,
                 }),
