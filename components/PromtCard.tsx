@@ -2,23 +2,35 @@
 import {Post} from "@components/Feed";
 import Image from "next/image";
 import {useState} from "react";
+import {toast} from "sonner";
+import {useSession} from "next-auth/react";
+import {usePathname} from "@node_modules/next/dist/client/components/navigation";
+import {useRouter} from "next/navigation";
 
 
 interface PromptCardProps {
     post: Post;
-    handleTagClick: (tag: string) => void;
+    handleTagClick?: (tag: string) => void;
     handleEdit: () => void;
     handleDelete: () => void;
 }
 
 export default function PromptCard({post, handleTagClick, handleEdit, handleDelete}: PromptCardProps) {
     // @ts-ignore
+    const {data: session} = useSession();
+    const pathName = usePathname();
+    const router = useRouter();
 
     const [copied, setCopied] = useState<string>('');
 
     const handleCopy = (prompt: string) => {
+
         setCopied(prompt);
         navigator.clipboard.writeText(prompt);
+
+
+        toast.success("Copied!");
+
         //this prompt will be copied and save into clipvoard for 10 seconds
         setTimeout(() => {
             setCopied("")
@@ -63,6 +75,18 @@ export default function PromptCard({post, handleTagClick, handleEdit, handleDele
                onClick={() => handleTagClick && handleTagClick(post.tag)}>
                 {post.tag}
             </p>
+
+            {session?.user?.id === post.creator._id && pathName === '/profile' &&
+
+                <div className="mt-5 flex-center gap-4 border-t border-gray-200 pt-3">
+                    <p className="font-inter text-sm green_gradient cursor-pointer" onClick={handleEdit}>
+                        Өзгерту
+                    </p>
+                    <p className="font-inter text-sm orange_gradient cursor-pointer" onClick={handleDelete}>
+                        Жою
+                    </p>
+                </div>
+            }
         </div>
     )
 }

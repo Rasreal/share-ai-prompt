@@ -5,14 +5,18 @@ import {useEffect, useState} from "react";
 import {Post} from "@components/Feed";
 
 import Profile from "@components/Profile"
+import {useRouter} from "next/navigation";
 
 export default function MyProfile() {
+    const router = useRouter();
+
+
     const {data: session} = useSession();
 
     const [posts, setPosts] = useState<Post[]>([]);
     useEffect(() => {
         const fetchPrompts = async () => {
-            const response = await fetch(`api/users/${session?.user.id}/posts`);
+            const response = await fetch(`api/users/${session?.user?.id}/posts`);
             const data = await response.json();
 
             if (response.ok) {
@@ -22,14 +26,15 @@ export default function MyProfile() {
             }
         };
 
-        if(session?.user.id) {
+        if(session?.user?.id) {
             fetchPrompts();
         }
 
 
     }, []);
 
-    const handleEdit = () => {
+    const handleEdit = (post: Post) => {
+        router.push(`/update-prompt?id=${post._id}`);
 
     }
     const handleDelete = () => {
@@ -42,8 +47,7 @@ export default function MyProfile() {
             myProfile={true}
             desc={"Qosh Keldin"}
             data={posts}
-            handleEdit={() => {
-            }}
+            handleEdit={handleEdit}
             handleDelete={() => {
             }}
 

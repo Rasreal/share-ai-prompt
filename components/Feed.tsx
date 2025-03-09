@@ -4,6 +4,7 @@ import { useEffect, useState, ChangeEvent } from "react";
 import PromptCard from "@components/PromtCard";
 
 export interface Post {
+    _id?: any;
     tag: string;
     prompt: string;
     creator?: any;
