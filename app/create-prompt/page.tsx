@@ -17,39 +17,39 @@ export default function CreatePrompt() {
         tag: ''
     });
 
-    const createPrompt2 = async (e:any) => {
-
-        setSubmitting(true);
-
-        try{
-
-            const response = await fetch("/api/prompt/new", {
-                method: "POST",
-                body: JSON.stringify({
-                    prompt: post.prompt,
-                    userID: session!.user!.id,
-                    tag: post.tag,
-                })
-            });
-
-            if(response.ok){
-                router.push('/')
-            }
-
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setSubmitting(false);
-        }
-
-    }
+    // const createPrompt2 = async (e:any) => {
+    //
+    //     setSubmitting(true);
+    //
+    //     try{
+    //
+    //         const response = await fetch("/api/prompt/new", {
+    //             method: "POST",
+    //             body: JSON.stringify({
+    //                 prompt: post.prompt,
+    //                 userID: session!.user!.id,
+    //                 tag: post.tag,
+    //             })
+    //         });
+    //
+    //         if(response.ok){
+    //             router.push('/')
+    //         }
+    //
+    //     } catch (e) {
+    //         console.log(e);
+    //     } finally {
+    //         setSubmitting(false);
+    //     }
+    //
+    // }
 
     const createPrompt = async (data: any) => {
         const {prompt, tag} = data;
 
         setSubmitting(true);
 
-       //console.log("Submitting Data:", data); // ✅ Debug first request
+       console.log("Submitting Data:", data); // ✅ Debug first request
 
         try {
             // @ts-ignore
