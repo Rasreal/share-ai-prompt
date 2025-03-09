@@ -68,7 +68,7 @@ export const DELETE = async (req, {params}) => {
 
         await Prompt.findByIdAndDelete(params.id);
 
-        return new Response(JSON.stringify(prompts), {status: 200});
+        return new Response("Prompt жойылды", {status: 200});
     } catch (e) {
         console.error(e);
         return new Response(

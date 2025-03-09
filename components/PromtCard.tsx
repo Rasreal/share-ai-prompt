@@ -73,16 +73,23 @@ export default function PromptCard({post, handleTagClick, handleEdit, handleDele
             </p>
             <p className="font-inter text-sm blue_gradient cursor-pointer"
                onClick={() => handleTagClick && handleTagClick(post.tag)}>
-                {post.tag}
+                #{post.tag}
             </p>
 
             {session?.user?.id === post.creator._id && pathName === '/profile' &&
 
                 <div className="mt-5 flex-center gap-4 border-t border-gray-200 pt-3">
-                    <p className="font-inter text-sm green_gradient cursor-pointer" onClick={handleEdit}>
+                    <p
+                        className="font-inter text-[16px] green_gradient cursor-pointer font-semibold relative after:absolute after:left-1/2 after:bottom-0 after:w-0 after:h-[2px] after:bg-green-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0"
+                        onClick={handleEdit}
+                    >
                         Өзгерту
                     </p>
-                    <p className="font-inter text-sm orange_gradient cursor-pointer" onClick={handleDelete}>
+
+                    <p
+                        className="font-inter text-[16px] font-semibold orange_gradient cursor-pointer relative after:absolute after:left-1/2 after:bottom-0 after:w-0 after:h-[2px] after:bg-orange-500 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0"
+                        onClick={handleDelete}
+                    >
                         Жою
                     </p>
                 </div>

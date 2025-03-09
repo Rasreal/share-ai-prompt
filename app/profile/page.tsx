@@ -37,8 +37,22 @@ export default function MyProfile() {
         router.push(`/update-prompt?id=${post._id}`);
 
     }
-    const handleDelete = () => {
+    const handleDelete = async (post: Post) => {
+        const confirmed = confirm("Точно ма ? ");
 
+        if(confirmed) {
+            try {
+                await fetch(`api/prompt/${post._id.toString()}`, {
+                    method: "DELETE",
+                });
+
+                const filteredPosts = posts.filter((p) => p._id !== post._id);
+
+                setPosts(filteredPosts);
+            } catch (e) {
+
+            }
+        }
     }
 
     return (
@@ -48,8 +62,7 @@ export default function MyProfile() {
             desc={"Qosh Keldin"}
             data={posts}
             handleEdit={handleEdit}
-            handleDelete={() => {
-            }}
+            handleDelete={handleDelete}
 
         />
     )

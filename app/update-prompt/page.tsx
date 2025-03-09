@@ -37,9 +37,8 @@ export default function UpdatePrompt() {
 
     }, [promptId])
 
-    const updatePrompt = async () => {
-
-
+    const updatePrompt = async (data: any) => {
+        const {prompt, tag} = data;
         setSubmitting(true);
 
         if(!promptId){
@@ -52,8 +51,8 @@ export default function UpdatePrompt() {
             const response = await fetch(`/api/prompt/${promptId}`, {
                 method: "PATCH",
                 body: JSON.stringify({
-                    prompt: post.prompt,
-                    tag: post.tag,
+                    prompt: prompt,
+                    tag: tag,
                 })
             });
 
