@@ -16,6 +16,7 @@ export default function MyProfile() {
     const [posts, setPosts] = useState<Post[]>([]);
     useEffect(() => {
         const fetchPrompts = async () => {
+            // @ts-ignore
             const response = await fetch(`api/users/${session?.user?.id}/posts`);
             const data = await response.json();
 
@@ -25,7 +26,7 @@ export default function MyProfile() {
                 alert("Посттар фетч жасамай жатыр");
             }
         };
-
+        // @ts-ignore
         if(session?.user?.id) {
             fetchPrompts();
         }
