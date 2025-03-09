@@ -28,7 +28,7 @@ interface PromptFormProps {
     post: Post
     setPost: any
     submitting: boolean
-    handleSubmit: (data: z.infer<typeof FormSchema>) => void
+    handleSubmit?: (data: z.infer<typeof FormSchema>) => void
 }
 
 export function PromptForm({
@@ -56,7 +56,9 @@ export function PromptForm({
                 onClick: () => console.log("ОК"),
             },
         })
-        externalHandleSubmit(data)
+        if (externalHandleSubmit) {
+            externalHandleSubmit(data)
+        }
     }
 
     const handleCancel = () => {

@@ -5,13 +5,13 @@ import {useSession} from "next-auth/react";
 import {useRouter, useSearchParams} from "next/navigation";
 
 import {PromptForm} from "@components/NewForm";
+import {toast} from "sonner";
 
 export default function UpdatePrompt() {
 
     const router = useRouter();
-    const { data: session } = useSession();
     const searchParams = useSearchParams();
-    const promtId = searchParams.get("id");
+    const promptId = searchParams.get("id");
 
     const [submitting, setSubmitting] = useState(false);
     const [post, setPost] = useState({
@@ -21,27 +21,45 @@ export default function UpdatePrompt() {
 
 
     useEffect(() => {
+        const getPromptDetails = async () => {
+            const response = await fetch(`/api/prompt/${promptId}`);
+            const res = await response.json();
 
+            setPost({
+                prompt: res.prompt,
+                tag: res.tag,
+            });
+        }
 
-    }, [promtId])
+        if(promptId) {
+            getPromptDetails();
+        }
 
-    const createPrompt = async (e:any) => {
+    }, [promptId])
+
+    const updatePrompt = async (e:any) => {
 
         setSubmitting(true);
 
+        if(!promptId){
+            toast.error("Prompt not found :(");
+            alert("Prompt ID Табылмады :(")
+        }
+
         try{
 
-            const response = await fetch("/api/prompt/new", {
-                method: "POST",
+            const response = await fetch(`/api/prompt/${promptId}`, {
+                method: "PATCH",
                 body: JSON.stringify({
                     prompt: post.prompt,
-                    userID: session!.user!.id,
                     tag: post.tag,
                 })
             });
 
             if(response.ok){
+                toast.success("Prompt successfully updated");
                 router.push('/')
+
             }
 
         } catch (e) {
@@ -55,7 +73,7 @@ export default function UpdatePrompt() {
 
     return (
         <div>
-            <PromptForm handleSubmit={createPrompt} post={post} setPost={setPost} submitting={submitting} type={"Пост Жазу"}/>
+            <PromptForm handleSubmit={()=> {}} post={post} setPost={setPost} submitting={submitting} type={"Пост Өзгерту"}/>
         </div>
     )
 
