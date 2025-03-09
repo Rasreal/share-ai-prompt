@@ -37,7 +37,8 @@ export default function UpdatePrompt() {
 
     }, [promptId])
 
-    const updatePrompt = async (e:any) => {
+    const updatePrompt = async () => {
+
 
         setSubmitting(true);
 
@@ -73,7 +74,7 @@ export default function UpdatePrompt() {
 
     return (
         <div>
-            <PromptForm handleSubmit={()=> {}} post={post} setPost={setPost} submitting={submitting} type={"Пост Өзгерту"}/>
+            <PromptForm handleSubmit={updatePrompt} post={post} setPost={setPost} submitting={submitting} type={"Пост Өзгерту"}/>
         </div>
     )
 

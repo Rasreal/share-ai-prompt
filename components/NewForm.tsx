@@ -8,13 +8,14 @@ import { toast } from "sonner"
 import { Button } from "@components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {FormEvent, useEffect, useLayoutEffect} from "react";
 
 const FormSchema = z.object({
     prompt: z.string().min(2, {
-        message: "Prompt must be at least 2 characters.",
+        message: "Prompt кем дегенде 2 таңбадан тұру қаже ",
     }),
     tag: z.string().min(1, {
-        message: "Tag is required.",
+        message: "Tag жазу керек",
     }),
 })
 
@@ -36,28 +37,47 @@ export function PromptForm({
                                post,
                                setPost,
                                submitting = false,
-                               handleSubmit: externalHandleSubmit,
+                               handleSubmit,
                            }: PromptFormProps) {
+
+
+    console.log("Check data First: \n");
+    console.log(post);
+
+
+    // useEffect(() => {
+    //     if(post) {
+    //         form.reset({
+    //             prompt: post.prompt,
+    //             tag: post.tag,
+    //         })
+    //
+    //         console.log("Check data: \n");
+    //         console.log(post);
+    //         console.log(form);
+    //     }
+    // }, [])
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            prompt: "",
-            tag: "",
+            prompt: post ? post.prompt : "" ,
+            tag: post ? post.tag : "",
         },
-    })
+    });
+
+    useEffect(() => {
+        form.reset(post)
+    }, [post, form]);
+    console.log("form")
+    console.log(form.getValues())
 
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
+
         console.log(data)
-        toast("Промпт сақталып жатыр", {
-            description: new Date().toLocaleString("ru-RU"), // Russian date format
-            action: {
-                label: "ОК",
-                onClick: () => console.log("ОК"),
-            },
-        })
-        if (externalHandleSubmit) {
-            externalHandleSubmit(data)
+        if (handleSubmit) {
+            handleSubmit(data)
         }
     }
 
