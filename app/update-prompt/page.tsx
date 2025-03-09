@@ -1,14 +1,19 @@
 'use client'
-import React, {useActionState, useEffect, useState} from "react";
 
-import {useSession} from "next-auth/react";
-import {useRouter, useSearchParams} from "next/navigation";
-
-import {PromptForm} from "@components/NewForm";
-import {toast} from "sonner";
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { PromptForm } from "@components/NewForm";
+import { toast } from "sonner";
 
 export default function UpdatePrompt() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <UpdatePromptContent />
+        </Suspense>
+    );
+}
 
+function UpdatePromptContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const promptId = searchParams.get("id");
@@ -19,7 +24,6 @@ export default function UpdatePrompt() {
         tag: ''
     });
 
-
     useEffect(() => {
         const getPromptDetails = async () => {
             const response = await fetch(`/api/prompt/${promptId}`);
@@ -29,53 +33,46 @@ export default function UpdatePrompt() {
                 prompt: res.prompt,
                 tag: res.tag,
             });
-        }
+        };
 
-        if(promptId) {
+        if (promptId) {
             getPromptDetails();
         }
-
-    }, [promptId])
+    }, [promptId]);
 
     const updatePrompt = async (data: any) => {
-        const {prompt, tag} = data;
+        const { prompt, tag } = data;
         setSubmitting(true);
 
-        if(!promptId){
+        if (!promptId) {
             toast.error("Prompt not found :(");
-            alert("Prompt ID Табылмады :(")
+            alert("Prompt ID Табылмады :(");
+            return;
         }
 
-        try{
-
+        try {
             const response = await fetch(`/api/prompt/${promptId}`, {
                 method: "PATCH",
                 body: JSON.stringify({
                     prompt: prompt,
                     tag: tag,
-                })
+                }),
             });
 
-            if(response.ok){
+            if (response.ok) {
                 toast.success("Prompt successfully updated");
-                router.push('/')
-
+                router.push('/');
             }
-
         } catch (e) {
             console.log(e);
         } finally {
             setSubmitting(false);
         }
-
-    }
-
+    };
 
     return (
         <div>
-            <PromptForm handleSubmit={updatePrompt} post={post} setPost={setPost} submitting={submitting} type={"Пост Өзгерту"}/>
+            <PromptForm handleSubmit={updatePrompt} post={post} setPost={setPost} submitting={submitting} type={"Пост Өзгерту"} />
         </div>
-    )
-
-
+    );
 }
