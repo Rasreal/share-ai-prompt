@@ -1,16 +1,17 @@
 "use client"
 import {Post} from "@components/Feed";
 import Image from "next/image";
-import {useState} from "react";
+import {Dispatch, useState} from "react";
 import {toast} from "sonner";
 import {useSession} from "next-auth/react";
 import {usePathname} from "@node_modules/next/dist/client/components/navigation";
 import {useRouter} from "next/navigation";
+import moment from "moment";
 
 
 interface PromptCardProps {
     post: Post;
-    handleTagClick?: (tag: string) => void;
+    handleTagClick?: Dispatch<React.SetStateAction<string>>;
     handleEdit: () => void;
     handleDelete: () => void;
 }
@@ -49,9 +50,15 @@ export default function PromptCard({post, handleTagClick, handleEdit, handleDele
                         height={40} className="rounded-full object-cover"/>
 
                     <div className="flex flex-col">
-                        <h3 className="font-satoshi font-semibold text-gray-900">
-                            {post.creator.username}
-                        </h3>
+                        <div className="flex-row mb-1 gap-2">
+                            <h3 className="font-satoshi font-semibold text-gray-900">
+                                {post.creator.username}
+                            </h3>
+                            <h3 className="text-gray-500 text-sm">
+                                {post?.createdAt || ""}
+                            </h3>
+                        </div>
+
                         <p className="text-gray-500 font-inter text-sm">
                             {post.creator.email}
                         </p>

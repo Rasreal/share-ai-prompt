@@ -16,7 +16,7 @@ export const POST = async (req) => {  // Removed ': Request'
             creator: userID,
             prompt: prompt,
             tag: tag,
-            createdAt: moment().locale("ru").format("LLLL"), // Store formatted Russian date
+            createdAt: moment().locale("ru").format("D/MM HH:mm"),
         });
 
         // Save to database

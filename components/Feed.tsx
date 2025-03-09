@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, ChangeEvent } from "react";
+import {useEffect, useState, ChangeEvent, Dispatch} from "react";
 import PromptCard from "@components/PromtCard";
 
 export interface Post {
@@ -13,7 +13,7 @@ export interface Post {
 
 interface PromptCardListProps {
     data: Post[];
-    handleTagClick: () => void;
+    handleTagClick?: any;
 }
 
 const PromptCardList: React.FC<PromptCardListProps> = ({ data, handleTagClick }) => {
@@ -34,10 +34,9 @@ const PromptCardList: React.FC<PromptCardListProps> = ({ data, handleTagClick })
 export default function Feed() {
     const [searchText, setSearchText] = useState<string>('');
     const [posts, setPosts] = useState<Post[]>([]);
+    const [searchResults, setSearchResults] = useState<Post[]>([]);
+    const [searchTimeout, setSearchTimeout] = useState<any>(null);
 
-    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchText(e.target.value);
-    };
 
     useEffect(() => {
         const fetchPrompts = async () => {
@@ -54,6 +53,37 @@ export default function Feed() {
         fetchPrompts();
     }, []);
 
+    const filterSearch = (searchText: any) => {
+        const regEx = new RegExp(searchText, "i");
+        return posts.filter((p) =>
+            regEx.test(p.creator.username) ||
+            regEx.test(p.tag) ||
+            regEx.test(p.prompt)
+        );
+    }
+
+    const handleTagClick = (tagName: string) => {
+        setSearchText(tagName);
+
+        const searchResult = filterSearch(tagName);
+        setSearchResults(searchResult);
+    };
+
+
+    const handleSearchChange = (e: any) => {
+        clearTimeout(searchTimeout);
+        setSearchText(e.target.value);
+
+        // debounce method
+        setSearchTimeout(
+            setTimeout(() => {
+                const searchResult = filterSearch(e.target.value);
+                setSearchResults(searchResult);
+            }, 500)
+        );
+
+    }
+
     return (
         <section className="feed">
             <form className="relative w-full flex-center">
@@ -66,7 +96,10 @@ export default function Feed() {
                     required
                 />
             </form>
-            <PromptCardList data={posts} handleTagClick={() => { console.log("tag") }} />
+
+            {searchResults.length > 0 ? <PromptCardList data={searchResults} handleTagClick= {handleTagClick} /> :
+                <PromptCardList data={posts} handleTagClick= {handleTagClick} />}
+
         </section>
     );
 }
